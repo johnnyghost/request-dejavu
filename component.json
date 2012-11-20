@@ -1,0 +1,6 @@
+{
+  "name": "request",
+  "dependencies": {
+    "dejavu": "0.1.13"
+  }
+}

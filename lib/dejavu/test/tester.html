@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>dejavu tests</title>
+        <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+        <script src="../node_modules/mocha/mocha.js"></script>
+        <script src="../node_modules/expect.js/expect.js"></script>
+        <script src="../node_modules/requirejs/require.js"></script>
+        <script src="util/browser.js"></script>
+        <script src="util/adapter.js"></script>
+        <script>
+            var options = {
+                ui: 'bdd',
+                globals: ['console']
+            },
+                build = getBuild();
+
+            // TODO: remove this once mocha fixes this (https://github.com/visionmedia/mocha/issues/243)
+            if (navigator.userAgent.indexOf('Opera') !== -1) {
+                options.globals.push('stats', 'report');
+            } else if (navigator.userAgent.indexOf('Firefox') !== -1) {
+                options.globals.push('getInterface');   // Sometimes Firefox exposes a getInterface global.. I think it's Firebug
+            }
+
+            mocha.setup(options);
+
+            require(['domReady!', build.replace(/^[a-z0-9]+\//i, '')], function () {
+
+                var elem = document.getElementById(build.replace(/\//g, '_'));
+                if (elem) {
+                    elem.className = 'active';
+                }
+
+                mocha
+                .run();
+            });
+        </script>
+        <style>
+            #build {
+                height: 50px;
+                position: absolute;
+                top: 0px;
+                left: 15px;
+                right: 350px;
+            }
+            #build li {
+                list-style: none;
+                float: left;
+                margin-left: 20px;
+            }
+            #build li a, #build li a:active, #build li a:visited {
+                color: #D00972;
+                text-decoration: none;
+            }
+            #build li.active a {
+                color: #FF17E8;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <ul id="build">
+            <li id="amd_strict"><a href="?build=amd/strict">amd/strict build</a></li>
+            <li id="amd_loose"><a href="?build=amd/loose">amd/loose build</a></li>
+        </ul>
+
+        <div id="mocha"></div>
+    </body>
+</html>
