@@ -1,4 +1,4 @@
 request-dejavu
 ==============
 
-A XMLHTTPRequest wrapper build ontop of dejavu.
+A XMLHTTPRequest wrapper build on top of dejavu.
